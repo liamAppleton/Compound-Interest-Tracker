@@ -1,0 +1,14 @@
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/bin/Debug/net9.0/CompoundInterestTracker
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/bin/Debug/net9.0/CompoundInterestTracker.deps.json
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/bin/Debug/net9.0/CompoundInterestTracker.runtimeconfig.json
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/bin/Debug/net9.0/CompoundInterestTracker.dll
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/bin/Debug/net9.0/CompoundInterestTracker.pdb
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.GeneratedMSBuildEditorConfig.editorconfig
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.AssemblyInfoInputs.cache
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.AssemblyInfo.cs
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.csproj.CoreCompileInputs.cache
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.dll
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/refint/CompoundInterestTracker.dll
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.pdb
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/CompoundInterestTracker.genruntimeconfig.cache
+/Users/liamappleton/northcoders/projects/CSharp/CompoundInterestTracker/obj/Debug/net9.0/ref/CompoundInterestTracker.dll
