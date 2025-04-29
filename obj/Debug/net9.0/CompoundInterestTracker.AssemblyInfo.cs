@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CompoundInterestTracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c7b4dfdff2252d0ebe8d039db1eb13dfd853172")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78ead489a15724fb871ca36d46d1116bb890d87c")]
 [assembly: System.Reflection.AssemblyProductAttribute("CompoundInterestTracker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CompoundInterestTracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
