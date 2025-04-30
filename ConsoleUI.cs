@@ -23,20 +23,31 @@ namespace CompoundInterestTracker
 
             Console.WriteLine($"Calculating interest gained for each {frequencyPeriod.ToLower()}");
 
+            var interestOverTime = new List<(string periodDisplay, double amount, Color colour)>();
             int i = 1;
             while (i <= years)
             {
                 InvestmentPlan investmentPlan = new InvestmentPlan(initialAmount, annualInterestRate, i, frequency);
-
                 ProjectionCalculator projectionCalculator = new ProjectionCalculator(investmentPlan);
-                double compoundInterest = projectionCalculator.CalculateCompoundInterest();
-                Console.WriteLine($"{frequencyPeriod} {i}: £{compoundInterest:F2}");
 
+                double compoundInterest = projectionCalculator.CalculateCompoundInterest();
+                string periodDisplay = $"{frequencyPeriod} {i} (£{compoundInterest - initialAmount:F2})";
+                Color colour = Formatter.ColourRandomiser();
+
+                interestOverTime.Add((periodDisplay, Math.Round(compoundInterest - initialAmount, 2), colour));
                 i++;
             }
 
-            Console.WriteLine("Program finished...");
+            AnsiConsole.Write(new BarChart()
+                .Width(60)
+                .HideValues()
+                .Label("Interest Over Time")
+                .CenterLabel()
+                .AddItems(interestOverTime, (item) => new BarChartItem(
+                    item.periodDisplay, item.amount, item.colour
+                )));
 
+            Console.WriteLine("Program finished...");
         }
     }
 }
