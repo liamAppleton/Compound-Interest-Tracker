@@ -18,26 +18,25 @@ namespace CompoundInterestTracker
                 ValidationResult.Success()
                 ));
 
-            var years = AnsiConsole.Prompt(new TextPrompt<int>("Enter number of years: ")
-                .Validate((amount) => amount < 1 ?
-                ValidationResult.Error("[red]Years must be greater than 0[/]") :
-                ValidationResult.Success()
-                ));
-
             var userInputFrequency = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Enter compounding frequency:")
-                .AddChoices("Annually", "Semiannually", "Quarterly", "Monthly", "Daily")
-);
+                .AddChoices("Annually", "Semiannually", "Quarterly", "Monthly", "Daily"));
 
             string frequencyPeriod = Util.CompoundFrequencyFormatter(userInputFrequency);
             CompoundFrequency frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
+
+            var period = AnsiConsole.Prompt(new TextPrompt<int>($"Enter the number of {frequencyPeriod.ToLower()}s to project: ")
+                .Validate((amount) => amount < 1 ?
+                ValidationResult.Error("[red]Period must be greater than 0[/]") :
+                ValidationResult.Success()
+                ));
 
             AnsiConsole.Markup($"\nCalculating interest gained for each {frequencyPeriod.ToLower()}...");
 
             var interestOverTime = new List<(string periodDisplay, double amount, Color colour)>();
             int i = 1;
-            while (i <= years)
+            while (i <= period)
             {
                 InvestmentPlan investmentPlan = new InvestmentPlan(initialAmount, annualInterestRate, i, frequency);
                 ProjectionCalculator projectionCalculator = new ProjectionCalculator(investmentPlan);
