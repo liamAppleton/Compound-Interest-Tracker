@@ -7,26 +7,22 @@ namespace CompoundInterestTracker
         public static void Run()
         {
             var initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £")
-                .Validate((amount) => amount switch
-                {
-                    < 1 => ValidationResult.Error("[red]Amount must be greater than 0[/]"),
-                    > 0 => ValidationResult.Success()
-                }));
+                .Validate((amount) => amount < 1 ?
+                ValidationResult.Error("[red]Amount must be greater than 0[/]") :
+                ValidationResult.Success()
+                ));
 
             var annualInterestRate = AnsiConsole.Prompt(new TextPrompt<double>("Enter annual interest rate (in %): ")
-                .Validate((amount) => amount switch
-                {
-                    < 1 => ValidationResult.Error("[red]Annual interest must be greater than 0[/]"),
-                    > 0 => ValidationResult.Success()
-                }));
+                .Validate((amount) => amount < 1 ?
+                ValidationResult.Error("[red]Annual interest must be greater than 0[/]") :
+                ValidationResult.Success()
+                ));
 
             var years = AnsiConsole.Prompt(new TextPrompt<int>("Enter number of years: ")
-                .Validate((amount) => amount switch
-                {
-                    < 1 => ValidationResult.Error("[red]Years must be greater than 0[/]"),
-                    > 0 => ValidationResult.Success()
-
-                }));
+                .Validate((amount) => amount < 1 ?
+                ValidationResult.Error("[red]Years must be greater than 0[/]") :
+                ValidationResult.Success()
+                ));
 
             var userInputFrequency = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
