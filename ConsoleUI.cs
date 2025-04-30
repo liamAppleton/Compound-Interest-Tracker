@@ -4,37 +4,81 @@ namespace CompoundInterestTracker
 {
     class ConsoleUI
     {
-        public static async Task Run()
+        static double initialAmount;
+
+        static double annualInterestRate;
+
+        static string? userInputFrequency;
+
+        static string frequencyPeriod = string.Empty;
+
+        static int period;
+
+        static CompoundFrequency frequency;
+
+        static List<(string periodDisplay, double amount, Color colour)> interestOverTime;
+
+        private static void getUserInitialAmount()
         {
-            var initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £")
+            initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £")
                 .Validate((amount) => amount < 1 ?
                 ValidationResult.Error("[red]Amount must be greater than 0[/]") :
                 ValidationResult.Success()
                 ));
+        }
 
-            var annualInterestRate = AnsiConsole.Prompt(new TextPrompt<double>("Enter annual interest rate (in %): ")
+        private static void getUserAnnualInterestRate()
+        {
+            annualInterestRate = AnsiConsole.Prompt(new TextPrompt<double>("Enter annual interest rate (in %): ")
                 .Validate((amount) => amount < 1 ?
                 ValidationResult.Error("[red]Annual interest must be greater than 0[/]") :
                 ValidationResult.Success()
                 ));
+        }
 
-            var userInputFrequency = AnsiConsole.Prompt(
+        private static void getUserInputFrequency()
+        {
+            userInputFrequency = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                 .Title("Enter compounding frequency:")
                 .AddChoices("Annually", "Semiannually", "Quarterly", "Monthly", "Daily"));
+        }
 
-            string frequencyPeriod = Util.CompoundFrequencyFormatter(userInputFrequency);
-            CompoundFrequency frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
+        private static void setFrequencyData()
+        {
+            if (userInputFrequency != null)
+            {
+                frequencyPeriod = Util.CompoundFrequencyFormatter(userInputFrequency);
+                frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
+            }
+            else
+            {
+                frequencyPeriod = "Annually";
+                frequency = CompoundFrequency.Annually;
+            }
+        }
 
-            var period = AnsiConsole.Prompt(new TextPrompt<int>($"Enter the number of {frequencyPeriod.ToLower()}s to project: ")
+        private static void getUserPeriod()
+        {
+            period = AnsiConsole.Prompt(new TextPrompt<int>($"Enter the number of {frequencyPeriod.ToLower()}s to project: ")
                 .Validate((amount) => amount < 1 ?
                 ValidationResult.Error("[red]Period must be greater than 0[/]") :
                 ValidationResult.Success()
                 ));
+        }
 
-            AnsiConsole.Markup($"\nCalculating interest gained for each {frequencyPeriod.ToLower()}...");
+        private static void getUserInput()
+        {
+            getUserInitialAmount();
+            getUserAnnualInterestRate();
+            getUserInputFrequency();
+            setFrequencyData();
+            getUserPeriod();
+        }
 
-            var interestOverTime = new List<(string periodDisplay, double amount, Color colour)>();
+        private static void setInterestOverTime()
+        {
+            interestOverTime = new List<(string periodDisplay, double amount, Color colour)>();
             int i = 1;
             while (i <= period)
             {
@@ -48,6 +92,15 @@ namespace CompoundInterestTracker
                 interestOverTime.Add((periodDisplay, Math.Round(compoundInterest - initialAmount, 2), colour));
                 i++;
             }
+        }
+
+        public static async Task Run()
+        {
+            getUserInput();
+
+            AnsiConsole.Markup($"\nCalculating interest gained for each {frequencyPeriod.ToLower()}...");
+
+            setInterestOverTime();
 
             await AnsiConsole.Progress()
                 .StartAsync(async ctx =>
@@ -64,13 +117,13 @@ namespace CompoundInterestTracker
             AnsiConsole.Write(new BarChart()
                 .Width(60)
                 .HideValues()
-                .Label("Interest Over Time")
+                .Label("Interest Over Time\n")
                 .CenterLabel()
                 .AddItems(interestOverTime, (item) => new BarChartItem(
                     item.periodDisplay, item.amount, item.colour
                 )));
 
-            AnsiConsole.MarkupLine("\n[green]Program finished...[/]");
+            AnsiConsole.MarkupLine("\n[green]Program finished![/]");
         }
     }
 }
