@@ -6,11 +6,27 @@ namespace CompoundInterestTracker
     {
         public static void Run()
         {
-            var initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £"));
+            var initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £")
+                .Validate((amount) => amount switch
+                {
+                    < 1 => ValidationResult.Error("[red]Amount must be greater than 0[/]"),
+                    > 0 => ValidationResult.Success()
+                }));
 
-            var annualInterestRate = AnsiConsole.Prompt(new TextPrompt<double>("Enter annual interest rate (in %): "));
+            var annualInterestRate = AnsiConsole.Prompt(new TextPrompt<double>("Enter annual interest rate (in %): ")
+                .Validate((amount) => amount switch
+                {
+                    < 1 => ValidationResult.Error("[red]Annual interest must be greater than 0[/]"),
+                    > 0 => ValidationResult.Success()
+                }));
 
-            var years = AnsiConsole.Prompt(new TextPrompt<int>("Enter number of years: "));
+            var years = AnsiConsole.Prompt(new TextPrompt<int>("Enter number of years: ")
+                .Validate((amount) => amount switch
+                {
+                    < 1 => ValidationResult.Error("[red]Years must be greater than 0[/]"),
+                    > 0 => ValidationResult.Success()
+
+                }));
 
             var userInputFrequency = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
@@ -18,7 +34,7 @@ namespace CompoundInterestTracker
                 .AddChoices("Annually", "Semiannually", "Quarterly", "Monthly", "Daily")
 );
 
-            string frequencyPeriod = Formatter.CompoundFrequencyFormatter(userInputFrequency);
+            string frequencyPeriod = Util.CompoundFrequencyFormatter(userInputFrequency);
             CompoundFrequency frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
 
             Console.WriteLine($"Calculating interest gained for each {frequencyPeriod.ToLower()}");
@@ -32,7 +48,7 @@ namespace CompoundInterestTracker
 
                 double compoundInterest = projectionCalculator.CalculateCompoundInterest();
                 string periodDisplay = $"{frequencyPeriod} {i} (£{compoundInterest - initialAmount:F2})";
-                Color colour = Formatter.ColourRandomiser();
+                Color colour = Util.ColourRandomiser();
 
                 interestOverTime.Add((periodDisplay, Math.Round(compoundInterest - initialAmount, 2), colour));
                 i++;

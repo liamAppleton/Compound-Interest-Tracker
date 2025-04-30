@@ -2,11 +2,11 @@ using Spectre.Console;
 
 namespace CompoundInterestTracker
 {
-    public static class Formatter
+    public static class Util
     {
         private static Color[] colours;
 
-        static Formatter()
+        static Util()
         {
             colours = new Color[] {
                 Color.Black,
