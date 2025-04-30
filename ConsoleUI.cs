@@ -16,7 +16,7 @@ namespace CompoundInterestTracker
 
         static CompoundFrequency frequency;
 
-        static List<(string periodDisplay, double amount, Color colour)> interestOverTime;
+        static List<(string periodDisplay, double amount, Color colour)>? interestOverTime;
 
         private static void getUserInitialAmount()
         {
@@ -92,6 +92,7 @@ namespace CompoundInterestTracker
                 interestOverTime.Add((periodDisplay, Math.Round(compoundInterest - initialAmount, 2), colour));
                 i++;
             }
+
         }
 
         public static async Task Run()
@@ -114,7 +115,9 @@ namespace CompoundInterestTracker
                     }
                 });
 
-            AnsiConsole.Write(new BarChart()
+            if (interestOverTime != null)
+            {
+                AnsiConsole.Write(new BarChart()
                 .Width(60)
                 .HideValues()
                 .Label("Interest Over Time\n")
@@ -122,6 +125,8 @@ namespace CompoundInterestTracker
                 .AddItems(interestOverTime, (item) => new BarChartItem(
                     item.periodDisplay, item.amount, item.colour
                 )));
+            }
+
 
             AnsiConsole.MarkupLine("\n[green]Program finished![/]");
         }
