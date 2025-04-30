@@ -4,7 +4,7 @@ namespace CompoundInterestTracker
 {
     class ConsoleUI
     {
-        public static void Run()
+        public static async Task Run()
         {
             var initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £")
                 .Validate((amount) => amount < 1 ?
@@ -33,7 +33,7 @@ namespace CompoundInterestTracker
             string frequencyPeriod = Util.CompoundFrequencyFormatter(userInputFrequency);
             CompoundFrequency frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
 
-            Console.WriteLine($"Calculating interest gained for each {frequencyPeriod.ToLower()}");
+            AnsiConsole.Markup($"\nCalculating interest gained for each {frequencyPeriod.ToLower()}...");
 
             var interestOverTime = new List<(string periodDisplay, double amount, Color colour)>();
             int i = 1;
@@ -50,6 +50,18 @@ namespace CompoundInterestTracker
                 i++;
             }
 
+            await AnsiConsole.Progress()
+                .StartAsync(async ctx =>
+                {
+                    var task1 = ctx.AddTask("[green]Calculating compound interest[/]");
+
+                    while (!ctx.IsFinished)
+                    {
+                        await Task.Delay(15);
+                        task1.Increment(1.5);
+                    }
+                });
+
             AnsiConsole.Write(new BarChart()
                 .Width(60)
                 .HideValues()
@@ -59,7 +71,7 @@ namespace CompoundInterestTracker
                     item.periodDisplay, item.amount, item.colour
                 )));
 
-            Console.WriteLine("Program finished...");
+            AnsiConsole.MarkupLine("\n[green]Program finished...[/]");
         }
     }
 }
