@@ -9,14 +9,12 @@ namespace CompoundInterestTracker
         static Util()
         {
             colours = new Color[] {
-                Color.Black,
                 Color.Red,
                 Color.Green,
                 Color.Olive,
                 Color.Navy,
                 Color.Purple,
                 Color.Teal,
-                Color.Silver,
                 Color.Blue,
                 Color.Orange1,
                 Color.Gold1,
@@ -64,7 +62,7 @@ namespace CompoundInterestTracker
         public static Color ColourRandomiser()
         {
             Random rnd = new Random();
-            int randomColour = rnd.Next(0, 19);
+            int randomColour = rnd.Next(0, 17);
             return colours[randomColour];
         }
     }
