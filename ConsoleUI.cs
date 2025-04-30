@@ -12,7 +12,11 @@ namespace CompoundInterestTracker
 
             var years = AnsiConsole.Prompt(new TextPrompt<int>("Enter number of years: "));
 
-            var userInputFrequency = AnsiConsole.Prompt(new TextPrompt<string>("Enter compounding frequency (Annually, Semiannually, Quarterly, Monthly, Daily): "));
+            var userInputFrequency = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title("Enter compounding frequency:")
+                .AddChoices("Annually", "Semiannually", "Quarterly", "Monthly", "Daily")
+);
 
             string frequencyPeriod = Formatter.CompoundFrequencyFormatter(userInputFrequency);
             CompoundFrequency frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
