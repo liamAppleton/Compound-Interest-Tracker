@@ -16,7 +16,7 @@ A C# console application that allows users to calculate accrued compound interes
 - Data validation for clean, safe input
 - Fun and readable color themes
 
-![App preview](https://github.com/liamAppleton/Compound-Interest-Tracker/assets/exampleprojection.png)
+![Example Projection](https://raw.githubusercontent.com/liamAppleton/Compound-Interest-Tracker/main/assets/exampleprojection.png)
 
 ## Setup
 
