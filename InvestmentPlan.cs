@@ -27,17 +27,17 @@ namespace CompoundInterestTracker
 
         }
 
-        public int Period
+        public int ProjectionPeriod
         { get; set; }
 
         public CompoundFrequency Frequency
         { get; set; }
 
-        public InvestmentPlan(double initialAmount, double annualInterestRate, int period, CompoundFrequency frequency)
+        public InvestmentPlan(double initialAmount, double annualInterestRate, int projectionPeriod, CompoundFrequency frequency)
         {
             InitialAmount = initialAmount;
             AnnualInterestRate = annualInterestRate;
-            Period = period;
+            ProjectionPeriod = projectionPeriod;
             Frequency = frequency;
         }
     }
