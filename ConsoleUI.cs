@@ -134,7 +134,7 @@ namespace CompoundInterestTracker
             AnsiConsole.MarkupLine($"Annual Interest Rate: {annualInterestRate}");
             AnsiConsole.MarkupLine($"Compounded: {frequency}");
             AnsiConsole.MarkupLine($"Projection Period Length: {projectionPeriod}");
-            AnsiConsole.MarkupLine($"\nProjected Final Amount: [bold green]£{compoundInterest}[/]");
+            AnsiConsole.MarkupLine($"\nProjected Final Amount: [bold green]£{compoundInterest}[/]\n");
         }
     }
 }
