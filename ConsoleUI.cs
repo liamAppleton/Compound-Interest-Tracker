@@ -18,6 +18,8 @@ namespace CompoundInterestTracker
 
         static List<(string periodDisplay, double amount, Color colour)>? interestOverTime;
 
+        static double compoundInterest;
+
         private static void getUserInitialAmount()
         {
             initialAmount = AnsiConsole.Prompt(new TextPrompt<double>("Enter initial investment amount: £")
@@ -85,8 +87,8 @@ namespace CompoundInterestTracker
                 InvestmentPlan investmentPlan = new InvestmentPlan(initialAmount, annualInterestRate, i, frequency);
                 ProjectionCalculator projectionCalculator = new ProjectionCalculator(investmentPlan);
 
-                double compoundInterest = projectionCalculator.CalculateCompoundInterest();
-                string periodDisplay = $"{frequencyPeriod} {i} (£{compoundInterest - initialAmount:F2})";
+                compoundInterest = projectionCalculator.CalculateCompoundInterest();
+                string periodDisplay = $"{frequencyPeriod} {i} → Gained: £{compoundInterest - initialAmount:F2}";
                 Color colour = Util.ColourRandomiser();
 
                 interestOverTime.Add((periodDisplay, Math.Round(compoundInterest - initialAmount, 2), colour));
@@ -97,16 +99,16 @@ namespace CompoundInterestTracker
 
         public static async Task Run()
         {
-            getUserInput();
+            AnsiConsole.MarkupLine("\n[bold blue]=== Compound Interest Tracker ===[/]\n");
 
-            AnsiConsole.Markup($"\nCalculating interest gained for each {frequencyPeriod.ToLower()}...");
+            getUserInput();
 
             setInterestOverTime();
 
             await AnsiConsole.Progress()
                 .StartAsync(async ctx =>
                 {
-                    var task1 = ctx.AddTask("[green]Calculating compound interest[/]");
+                    var task1 = ctx.AddTask("[blue]Calculating compound interest[/]");
 
                     while (!ctx.IsFinished)
                     {
@@ -117,18 +119,17 @@ namespace CompoundInterestTracker
 
             if (interestOverTime != null)
             {
+                AnsiConsole.MarkupLine("\n[bold blue]=== Interest Over Time ===[/]\n");
+
                 AnsiConsole.Write(new BarChart()
                 .Width(60)
                 .HideValues()
-                .Label("Interest Over Time\n")
-                .CenterLabel()
                 .AddItems(interestOverTime, (item) => new BarChartItem(
                     item.periodDisplay, item.amount, item.colour
                 )));
             }
 
-
-            AnsiConsole.MarkupLine("\n[green]Program finished![/]");
+            AnsiConsole.MarkupLine($"\n[bold blue]=== Investment Summary ===[/]\n\nInitial Amount: {initialAmount}\nAnnual Interest Rate: {annualInterestRate}\nCompounded: {frequency}\nPeriod: {period}\n\nProjected Final Amount: [bold green]£{compoundInterest}[/]\n");
         }
     }
 }
