@@ -6,8 +6,6 @@ namespace CompoundInterestTracker
 
         private double annualInterestRate;
 
-        private int years;
-
         public double InitialAmount
         {
             get { return initialAmount; }
@@ -29,27 +27,17 @@ namespace CompoundInterestTracker
 
         }
 
-        public int Years
-        {
-            get { return years; }
-            set
-            {
-                if (value < 1 || value > 50)
-                {
-                    throw new ArgumentOutOfRangeException("Years must be between 1 and 50 inclusive.");
-                }
-                else { years = value; }
-            }
-        }
+        public int Period
+        { get; set; }
 
         public CompoundFrequency Frequency
         { get; set; }
 
-        public InvestmentPlan(double initialAmount, double annualInterestRate, int years, CompoundFrequency frequency)
+        public InvestmentPlan(double initialAmount, double annualInterestRate, int period, CompoundFrequency frequency)
         {
             InitialAmount = initialAmount;
             AnnualInterestRate = annualInterestRate;
-            Years = years;
+            Period = period;
             Frequency = frequency;
         }
     }
