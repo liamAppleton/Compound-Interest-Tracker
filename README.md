@@ -14,7 +14,7 @@ A C# console application that allows users to calculate accrued compound interes
 - Visual bar chart to display interest gained over time
 - Summary panel with key investment details
 - Data validation for clean, safe input
-- Fun and readable color themes
+- Fun and readable colour themes
 
 ![Example Projection](https://raw.githubusercontent.com/liamAppleton/Compound-Interest-Tracker/main/assets/exampleprojection.png)
 
