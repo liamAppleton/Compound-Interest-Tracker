@@ -10,9 +10,9 @@ namespace CompoundInterestTracker
 
         static string? userInputFrequency;
 
-        static string frequencyPeriod = string.Empty;
+        static string frequencyAsString = string.Empty;
 
-        static int period;
+        static int projectionPeriod;
 
         static CompoundFrequency frequency;
 
@@ -50,19 +50,19 @@ namespace CompoundInterestTracker
         {
             if (userInputFrequency != null)
             {
-                frequencyPeriod = Util.CompoundFrequencyFormatter(userInputFrequency);
+                frequencyAsString = Util.CompoundFrequencyFormatter(userInputFrequency);
                 frequency = (CompoundFrequency)Enum.Parse(typeof(CompoundFrequency), userInputFrequency);
             }
             else
             {
-                frequencyPeriod = "Annually";
+                frequencyAsString = "Annually";
                 frequency = CompoundFrequency.Annually;
             }
         }
 
         private static void getUserPeriod()
         {
-            period = AnsiConsole.Prompt(new TextPrompt<int>($"Enter the number of {frequencyPeriod.ToLower()}s to project: ")
+            projectionPeriod = AnsiConsole.Prompt(new TextPrompt<int>($"Enter the number of {frequencyAsString.ToLower()}s to project: ")
                 .Validate((amount) => amount < 1 ?
                 ValidationResult.Error("[red]Period must be greater than 0[/]") :
                 ValidationResult.Success()
@@ -82,13 +82,13 @@ namespace CompoundInterestTracker
         {
             interestOverTime = new List<(string periodDisplay, double amount, Color colour)>();
             int i = 1;
-            while (i <= period)
+            while (i <= projectionPeriod)
             {
                 InvestmentPlan investmentPlan = new InvestmentPlan(initialAmount, annualInterestRate, i, frequency);
                 ProjectionCalculator projectionCalculator = new ProjectionCalculator(investmentPlan);
 
                 compoundInterest = projectionCalculator.CalculateCompoundInterest();
-                string periodDisplay = $"{frequencyPeriod} {i} → Gained: £{compoundInterest - initialAmount:F2}";
+                string periodDisplay = $"{frequencyAsString} {i} → Gained: £{compoundInterest - initialAmount:F2}";
                 Color colour = Util.ColourRandomiser();
 
                 interestOverTime.Add((periodDisplay, Math.Round(compoundInterest - initialAmount, 2), colour));
@@ -129,7 +129,12 @@ namespace CompoundInterestTracker
                 )));
             }
 
-            AnsiConsole.MarkupLine($"\n[bold blue]=== Investment Summary ===[/]\n\nInitial Amount: {initialAmount}\nAnnual Interest Rate: {annualInterestRate}\nCompounded: {frequency}\nPeriod: {period}\n\nProjected Final Amount: [bold green]£{compoundInterest}[/]\n");
+            AnsiConsole.MarkupLine("\n[bold blue]=== Investment Summary ===[/]\n");
+            AnsiConsole.MarkupLine($"Initial Investment: £{initialAmount:F2}");
+            AnsiConsole.MarkupLine($"Annual Interest Rate: {annualInterestRate}");
+            AnsiConsole.MarkupLine($"Compounded: {frequency}");
+            AnsiConsole.MarkupLine($"Projection Period Length: {projectionPeriod}");
+            AnsiConsole.MarkupLine($"\nProjected Final Amount: [bold green]£{compoundInterest}[/]");
         }
     }
 }
